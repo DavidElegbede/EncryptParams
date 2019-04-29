@@ -1,0 +1,70 @@
+<div class="container mb-4">
+  <h2 class="mt-4 mb-4">Encrypt  Parameters</h2>
+  <form [formGroup]="encryptForm" >
+          <div class="row mb-4" *ngIf="addChannelChoice1">
+            <div class="col">
+              <button class ="btn btn-outline-primary" (click)="addChannel()">ADD  CHANNEL</button>        
+            </div>
+          </div>
+
+
+          <div class="row mb-4" *ngIf="addChannelChoice2">
+              <div class="col">
+                <div class="row mb-4" >
+                  <div class="col-3">
+                    <input type="text" placeholder="Enter Channel Name" class="form-control" formControlName="channelName" required>
+                  </div>
+                  <div class="col-5">
+                    <input type="text"  placeholder="Enter Public Key" class="form-control" formControlName="channelPublicKey" required>
+                  </div>
+                  <div class="col-3" >
+                    <button class="btn btn-secondary" (click)="insertChannel()">Add Channel</button>
+                  </div>
+                  <div class="col" >
+                      <button class="btn btn-danger" (click)="cancelInsert()">X</button>
+                    </div>
+                </div>    
+              </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col">
+              <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{selectChannelText}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <button class="dropdown-item" *ngFor="let channel of channelList" (click)="selectChannel(channel)" >{{channel.channelName}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-4" formArrayName="params">
+            <div class="col">
+              <div class="row mb-4" *ngFor="let paramsControl of paramData.controls; let i = index" [formGroupName]="i">
+                <div class="col-5">
+                  <input type="text" placeholder="Enter Parameter Name" class="form-control" formControlName="paramName">
+                </div>
+                <div class="col-5">
+                  <input type="text"  placeholder="Enter Parameter Value" class="form-control" formControlName="paramValue">
+                </div>
+                <div class="col-2" *ngIf="paramData.length>1">
+                  <button class="btn btn-danger" (click)="removeParameter(i)">X</button>
+                </div>
+              </div>
+        
+              <button type="button" class="btn btn-success" (click)="addParameter()">Add Extra Parameter To Encrypt</button>  
+            </div>
+          </div>
+
+      <div class="form-group center" *ngIf="showResult">
+        <label for="encryptedPayLoad">Encrypted Params</label>
+        <textarea class="form-control" rows="10" formControlName="encryptedPayLoad" name="encryptedPayLoad"></textarea>       
+      </div>
+      <div class="form-group">
+          <button type="submit" class="btn btn-primary mr-3" (click)="encryptFunction()">Encrypt</button>
+          <button type="reset" class="btn btn-secondary" (click)="Reset()">Reset</button>
+      </div>
+  </form>
+</div>
+
