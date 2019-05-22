@@ -1,5 +1,6 @@
 # EncryptParamsApp
-
+This project was designed to assist in encrypting parameters needed for testing and the process of development.
+You can add the public key and then use it for encrypting your parameters.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
 
 ## Development server
