@@ -22,12 +22,14 @@
     "@angular/router": "^7.2.13",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
+    "fstream": "^1.0.12",
     "jquery": "^3.4.0",
     "jsencrypt": "^3.0.0-rc.1",
     "ngx-spinner": "^7.1.4",
     "ngx-toastr": "^10.0.2",
     "popper.js": "^1.15.0",
     "rxjs": "^6.4.0",
+    "tar": "^4.4.9",
     "zone.js": "^0.8.29"
   },
   "devDependencies": {
