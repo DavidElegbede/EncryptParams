@@ -17,6 +17,7 @@ export class EncryptedParamComponent implements OnInit {
   result: string;
   forUse: string;
   showResult = false;
+  channelName: string;
   selectChannelText: String = 'SELECT CHANNEL';
   addChannelChoice1: Boolean = true;
   addChannelChoice2: Boolean = false;
@@ -25,6 +26,7 @@ export class EncryptedParamComponent implements OnInit {
   params: FormArray;
   channel: Channel = {};
   channelList: Channel[] ;
+  channelSearchList: Channel[] = [] ;
   noEncrypt = false;
   API_ENC_KEY: string;
 
@@ -64,6 +66,7 @@ export class EncryptedParamComponent implements OnInit {
         this.spinner.hide();
        console.log(res);
        this.channelList = this.generateIterableArray(res);
+       this.channelSearchList = this.generateIterableArray(res);
        console.log(this.channelList);
       },
       (err: any) => {
@@ -127,8 +130,10 @@ export class EncryptedParamComponent implements OnInit {
     // this.cancelInsert();
     console.log(channel);
     this.selectChannelText = channel.channelName;
+    this.channelName = channel.channelName;
     this.API_ENC_KEY = channel.channelPublicKey;
 
+    this.channelSearchList = this.channelList;
   }
 
 // function pushes parameter field into the paramter array
@@ -152,13 +157,16 @@ removeParameter(paramIndex: number): void {
 
 // Function to  loop through each parameter and encrypt them
 public encryptFunction() {
-
+  console.log(this.params.length);
+  this.encryptForm.patchValue({
+    encryptedPayLoad: ''
+  });
   if (!this.API_ENC_KEY) {
     this.toastr.error('Please select channel!', 'Error!');
     return false;
   }
 
-  this.params = this.encryptForm.get('params') as FormArray;
+  // this.params = this.encryptForm.get('params') as FormArray;
   console.log(this.encryptForm.controls.params.get([0]));
   // console.log(this.params.at(0));
   console.log(this.encryptForm.controls.params.value);
@@ -189,8 +197,18 @@ public encryptFunction() {
     }
   }
 
+  public ResetEncryption() {
+    console.log('clear');
+    this.encryptForm.patchValue({
+      encryptedPayLoad: ''
+    });
+    this.showResult = false;
+  }
+
   public Reset() {
-    this.encryptForm.controls.encryptedPayLoad.setValue('');
+    this.encryptForm.patchValue({
+      encryptedPayLoad: ''
+    });
     this.showResult = false;
   }
 
@@ -203,4 +221,28 @@ public encryptFunction() {
     this.addChannelChoice2 = false;
     this.addChannelChoice1 = true;
   }
+
+
+
+    // This is for showing alert
+  SearchChannel(event) {
+    if (this.channelName && this.channelName !== '') {
+      console.log(event);
+      this.channelSearchList = this.channelSearchList.filter(res => {
+        return res.channelName.toLocaleUpperCase().indexOf(this.channelName.toLocaleUpperCase()) > -1;
+      });
+    } else {
+      this.channelSearchList = this.channelList;
+    }
+    // .indexOf(val.toLowerCase()) > -1
+
+    // if (val && val.trim() != '') {
+    //   this.filtered = this.beneficiaries.filter((b) => {
+    //     return (b.name.toLowerCase().indexOf(val.toLowerCase()) > -1 || b.bank.toLowerCase().indexOf(val.toLowerCase()) > -1 || b.accountNumber.toLowerCase().indexOf(val.toLowerCase()) > -1);
+    //   })
+    // }
+    //this.toastr.success('Channel Added Successfully!', 'Success!');
+  }
+
+
 }

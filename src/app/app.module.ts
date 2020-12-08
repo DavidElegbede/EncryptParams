@@ -9,11 +9,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { DataStorageService } from 'src/app/services/data-storage.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { HomePageComponent } from './home-page/home-page.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     EncryptedParamComponent,
+    HomePageComponent,
   ],
   imports: [
     BrowserAnimationsModule,
