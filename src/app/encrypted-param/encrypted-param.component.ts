@@ -18,12 +18,12 @@ export class EncryptedParamComponent implements OnInit {
   forUse: string;
   showResult = false;
   channelName: string;
-  selectChannelText: String = 'SELECT CHANNEL';
   addChannelChoice1: Boolean = true;
   addChannelChoice2: Boolean = false;
 
   encryptForm: FormGroup;
   params: FormArray;
+  tempArrayParams: FormArray;
   channel: Channel = {};
   channelList: Channel[] ;
   channelSearchList: Channel[] = [] ;
@@ -44,7 +44,8 @@ export class EncryptedParamComponent implements OnInit {
       encryptedPayLoad: new FormControl,
       channel: new FormControl,
       channelName: new FormControl,
-      channelPublicKey: new FormControl
+      channelPublicKey: new FormControl,
+      searchChannelName: new FormControl
     });
   }
 
@@ -129,8 +130,11 @@ export class EncryptedParamComponent implements OnInit {
   selectChannel(channel: Channel) {
     // this.cancelInsert();
     console.log(channel);
-    this.selectChannelText = channel.channelName;
     this.channelName = channel.channelName;
+    console.log(this.channelName);
+    this.encryptForm.patchValue({
+      searchChannelName: channel.channelName
+    });
     this.API_ENC_KEY = channel.channelPublicKey;
 
     this.channelSearchList = this.channelList;
@@ -138,6 +142,7 @@ export class EncryptedParamComponent implements OnInit {
 
 // function pushes parameter field into the paramter array
   addParameter(): void {
+    this.tempArrayParams = 
     this.params = this.encryptForm.get('params') as FormArray;
     this.params.push(this.createParamList());
   }
@@ -155,9 +160,9 @@ removeParameter(paramIndex: number): void {
   this.params.removeAt(paramIndex);
 }
 
+
 // Function to  loop through each parameter and encrypt them
 public encryptFunction() {
-  console.log(this.params.length);
   this.encryptForm.patchValue({
     encryptedPayLoad: ''
   });
@@ -165,15 +170,18 @@ public encryptFunction() {
     this.toastr.error('Please select channel!', 'Error!');
     return false;
   }
+  this.tempArrayParams = {...this.encryptForm.controls.params.value};
+  console.log(this.tempArrayParams);
 
-  // this.params = this.encryptForm.get('params') as FormArray;
-  console.log(this.encryptForm.controls.params.get([0]));
-  // console.log(this.params.at(0));
-  console.log(this.encryptForm.controls.params.value);
-  const temp = this.encryptForm.controls.params.value;
+  //the getRawValue method on the formgroup helps to get a copy of the form group amd make changes to the value without affecting the original value of the form group.
+ 
+  const temp1 = this.encryptForm.getRawValue();
+
+  const temp = temp1.params;
   // tslint:disable-next-line:prefer-const
   let body: any = {};
   temp.forEach(element => {
+    
     element.paramValue = this.encryptData(element.paramValue);
     // tslint:disable-next-line:prefer-const
     let res = element.paramName;
@@ -186,11 +194,10 @@ public encryptFunction() {
 }
 
  // encrypt function
-  public encryptData(data) {
+  public encryptData(data: string) {
     const encrypt = new JSEncrypt();
     try {
       encrypt.setPublicKey(this.API_ENC_KEY);
-      this.showResult = true;
       return encrypt.encrypt(data);
     } catch (e) {
       console.log(e);
@@ -209,6 +216,14 @@ public encryptFunction() {
     this.encryptForm.patchValue({
       encryptedPayLoad: ''
     });
+    if(this.params.length > 1){
+      for (let index = 0; index < this.params.length; index++) {
+        if (index != 0) {
+          this.removeParameter(index);
+        }      
+      }
+    }
+
     this.showResult = false;
   }
 

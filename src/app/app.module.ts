@@ -10,12 +10,14 @@ import { DataStorageService } from 'src/app/services/data-storage.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { HomePageComponent } from './home-page/home-page.component';
+import { SerializeParamComponent } from './serialize-param/serialize-param.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     EncryptedParamComponent,
     HomePageComponent,
+    SerializeParamComponent,
   ],
   imports: [
     BrowserAnimationsModule,

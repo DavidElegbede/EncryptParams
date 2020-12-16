@@ -27,8 +27,11 @@
   /* Active/current link */
   .sidebar a.active {
     /* background-color: #555; */
-    color: #b11226;;
+    color: #b11226;
   }
+  /* a:active {
+    color: #b11226;
+  } */
   
   /* Links on mouse-over */
   .sidebar a:hover:not(.active) {

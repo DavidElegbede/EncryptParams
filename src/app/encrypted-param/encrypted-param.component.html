@@ -38,10 +38,7 @@
           <div class="row mb-4">
             <div class="col-3">
               <div class="dropright">
-                <input type="text" [(ngModel)]= "channelName"  [ngModelOptions]="{standalone: true}" (input)= "SearchChannel()" class="dropdown-toggle form-control " id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" placeholder="Search Channel.." autocomplete="off">
-                <!-- <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{selectChannelText}}
-                </button> -->
+                <input type="text" class="form-control" formControlName="searchChannelName" (input)= "SearchChannel()" class="dropdown-toggle form-control " id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" placeholder="Search Channel.." autocomplete="off">
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <button class="dropdown-item" *ngFor="let channel of channelSearchList" (click)="selectChannel(channel)" >{{channel.channelName}}</button>
                 </div>
@@ -51,20 +48,6 @@
 
 
 
-
-
-          <!-- <div class="row mb-4">
-            <div class="col">
-              <div class="dropdown">
-                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{selectChannelText}}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <button class="dropdown-item" *ngFor="let channel of channelList" (click)="selectChannel(channel)" >{{channel.channelName}}</button>
-                </div>
-              </div>
-            </div>
-          </div> -->
           <div class="row mb-4" formArrayName="params">
             <div class="col">
               <div class="row mb-4" *ngFor="let paramsControl of paramData.controls; let i = index" [formGroupName]="i">
