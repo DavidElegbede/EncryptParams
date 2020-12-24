@@ -240,11 +240,13 @@ public encryptFunction() {
 
 
     // This is for showing alert
-  SearchChannel(event) {
-    if (this.channelName && this.channelName !== '') {
-      console.log(event);
+  SearchChannel() {
+    var filterValue = this.encryptForm.get("searchChannelName").value;
+
+    if (filterValue && filterValue !== '') {
+      // console.log(event);
       this.channelSearchList = this.channelSearchList.filter(res => {
-        return res.channelName.toLocaleUpperCase().indexOf(this.channelName.toLocaleUpperCase()) > -1;
+        return res.channelName.toLocaleUpperCase().indexOf(filterValue.toLocaleUpperCase()) > -1;
       });
     } else {
       this.channelSearchList = this.channelList;
