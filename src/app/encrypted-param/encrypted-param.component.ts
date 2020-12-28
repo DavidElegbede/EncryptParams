@@ -52,7 +52,8 @@ export class EncryptedParamComponent implements OnInit {
 
   // needed when i wanted to deploy on firebase. got an issue with html page.
   get paramData() {
-    return <FormArray> this.encryptForm.get('params');
+    this.params = this.encryptForm.get('params') as FormArray;
+    return this.params;
   }
 
   // This is for showing alert
@@ -143,7 +144,6 @@ export class EncryptedParamComponent implements OnInit {
 
 // function pushes parameter field into the paramter array
   addParameter(): void {
-    this.tempArrayParams = 
     this.params = this.encryptForm.get('params') as FormArray;
     this.params.push(this.createParamList());
   }
@@ -217,6 +217,8 @@ public encryptFunction() {
     this.encryptForm.patchValue({
       encryptedPayLoad: ''
     });
+    console.log(this.params);
+    console.log(this.params.length);
     if(this.params.length > 1){
       for (let index = 0; index < this.params.length; index++) {
         if (index != 0) {
