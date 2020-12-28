@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EncryptedParamComponent } from './encrypted-param.component';
 
@@ -6,7 +6,7 @@ describe('EncryptedParamComponent', () => {
   let component: EncryptedParamComponent;
   let fixture: ComponentFixture<EncryptedParamComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EncryptedParamComponent ]
     })

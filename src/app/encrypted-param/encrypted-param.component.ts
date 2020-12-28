@@ -6,6 +6,7 @@ import { DataStorageService } from '../services/data-storage.service';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { ClipboardService } from 'ngx-clipboard';
 
 @Component({
   selector: 'app-encrypted-param',
@@ -33,7 +34,7 @@ export class EncryptedParamComponent implements OnInit {
   public getChannel$: Observable<any>;
 
   constructor(private formBuilder: FormBuilder, private dataService: DataStorageService,
-    public spinner: NgxSpinnerService, private toastr: ToastrService) { }
+    public spinner: NgxSpinnerService, private toastr: ToastrService, private _clipboardService: ClipboardService) { }
 
 
   ngOnInit() {
@@ -189,7 +190,7 @@ public encryptFunction() {
   });
 
   console.log(JSON.stringify(body));
-  this.encryptForm.controls.encryptedPayLoad.setValue(JSON.stringify(body));
+  this.encryptForm.controls.encryptedPayLoad.setValue(JSON.stringify(body, undefined, 4));
   this.showResult = true;
 }
 
@@ -244,22 +245,20 @@ public encryptFunction() {
     var filterValue = this.encryptForm.get("searchChannelName").value;
 
     if (filterValue && filterValue !== '') {
-      // console.log(event);
       this.channelSearchList = this.channelSearchList.filter(res => {
         return res.channelName.toLocaleUpperCase().indexOf(filterValue.toLocaleUpperCase()) > -1;
       });
     } else {
       this.channelSearchList = this.channelList;
     }
-    // .indexOf(val.toLowerCase()) > -1
-
-    // if (val && val.trim() != '') {
-    //   this.filtered = this.beneficiaries.filter((b) => {
-    //     return (b.name.toLowerCase().indexOf(val.toLowerCase()) > -1 || b.bank.toLowerCase().indexOf(val.toLowerCase()) > -1 || b.accountNumber.toLowerCase().indexOf(val.toLowerCase()) > -1);
-    //   })
-    // }
-    //this.toastr.success('Channel Added Successfully!', 'Success!');
   }
+  
+  CopyToClipBoard(){
+    if(this.encryptForm.get("encryptedPayLoad").value){
+      this._clipboardService.copy(this.encryptForm.get("encryptedPayLoad").value)
+      this.toastr.success('Object copied to clipboard!');
+    }
 
+  }
 
 }

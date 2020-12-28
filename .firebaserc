@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "encryptparam"
+  },
+  "targets": {
+    "encryptparam": {
+      "hosting": {
+        "Theyvid-app": [
+          "encryptparam"
+        ]
+      }
+    }
   }
 }
